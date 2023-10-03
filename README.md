@@ -1,4 +1,4 @@
-# Automatizace v testování: Webdriver.io (v8)
+# Automatizace v testování: Webdriver.io (v8) PK
 
 ## Prerequisity
 - Java 11+
