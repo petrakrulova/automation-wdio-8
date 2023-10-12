@@ -5,7 +5,7 @@ export const config = {
         './test/specs/*.e2e.js'
     ],
     exclude: [
-        // './test/specs/examples/**/*.js'
+        './test/specs/examples/**/*.js'
     ],
     suites: {
         exercise: ['./test/specs/exercise.e2e.js'],
@@ -29,7 +29,7 @@ export const config = {
         'goog:chromeOptions': {
             args: [
                 '--window-size=1920,1080',
-                // '--headless',
+                '--headless',
                 '--no-sandbox',
                 '--disable-gpu',
                 '--disable-setuid-sandbox',
