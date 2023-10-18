@@ -1,25 +1,30 @@
 describe('Homework', async () => {
 
-    it('should open registration page and find elements', async () => {
+    it('should open registration page, fill inputs and confirm registration', async () => {
 
         await browser.reloadSession()
 
         await browser.url(`/registrace`)
 
-        const selectorNamesInp = $('#name')
-        console.log(await selectorNamesInp.getAttribute('name'))
+        const nameInput = $('#name')
+        console.log(await nameInput.getAttribute('name'))
 
-        const selectorEmailInp = $('#email')
-        console.log (await selectorEmailInp.getAttribute(`name`))
+        const emailInput= $('#email')
+        console.log (await emailInput.getAttribute(`name`))
 
-        const selectorPasswordInp = $('#password')
-        console.log (await selectorPasswordInp.getAttribute('name'))
+        const passwordInput = $('#password')
+        console.log (await passwordInput.getAttribute('name'))
 
-        const selectorCheckPasswordInp = $('#password-confirm')
-        console.log(await selectorCheckPasswordInp.getAttribute('name'))
+        const checkPasswordInput = $('#password-confirm')
+        console.log(await checkPasswordInput.getAttribute('name'))
 
-        const selectorRegistrationBtn = $('.btn-primary')
-        console.log(await selectorRegistrationBtn.getText())
+        const registrationBtn = $('.btn-primary')
+        console.log(await registrationBtn.getText())
+
+        await nameInput.setValue('Kryšpín Vopršálek')
+        await emailInput.setValue('kryspin.v88@gmail.com')
+        await checkPasswordInput.setValue(emailInput)
+        await registrationBtn.click()
     })
 
 })
