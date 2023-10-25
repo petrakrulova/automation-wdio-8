@@ -1,30 +1,78 @@
 describe('Homework', async () => {
 
-    it('should open registration page, fill inputs and confirm registration', async () => {
-
+    beforeEach(async()=>{
         await browser.reloadSession()
-
         await browser.url(`/registrace`)
-
-        const nameInput = $('#name')
-        console.log(await nameInput.getAttribute('name'))
-
-        const emailInput= $('#email')
-        console.log (await emailInput.getAttribute(`name`))
-
-        const passwordInput = $('#password')
-        console.log (await passwordInput.getAttribute('name'))
-
-        const checkPasswordInput = $('#password-confirm')
-        console.log(await checkPasswordInput.getAttribute('name'))
-
-        const registrationBtn = $('.btn-primary')
-        console.log(await registrationBtn.getText())
-
-        await nameInput.setValue('Kryšpín Vopršálek')
-        await emailInput.setValue('kryspin.v88@gmail.com')
-        await checkPasswordInput.setValue(emailInput)
-        await registrationBtn.click()
     })
 
+    it('open registration page', async () => {
+        const nameInput = await $('#name')
+        console.log(await nameInput.getAttribute('name') + await nameInput.isEnabled())
+
+        const emailInput= await $('#email')
+        console.log (await emailInput.getAttribute(`name`) + await emailInput.isEnabled())
+
+        const passwordInput = await $('#password')
+        console.log (await passwordInput.getAttribute('name') + await passwordInput.isEnabled())
+
+        const checkPasswordInput = await $('#password-confirm')
+        console.log(await checkPasswordInput.getAttribute('name') + await checkPasswordInput.isEnabled())
+
+        const registrationBtn = await $('.btn-primary')
+        console.log(await registrationBtn.getText() + await registrationBtn.isEnabled())
+    })
+    
+    xit('register new user with valid credentials', async () => {
+        const nameInput = await $('#name')
+        const emailInput= await $('#email')
+        const passwordInput = await $('#password')
+        const checkPasswordInput = await $('#password-confirm')
+        const registrationBtn = await $('.btn-primary')
+
+        await nameInput.setValue('Kryšpín Vopršálek')
+        await emailInput.setValue('kryspin.v85@gmail.com')
+        await passwordInput.setValue('12345CosToHonzo')
+        await checkPasswordInput.setValue('12345CosToHonzo')
+        await registrationBtn.click()
+        const userLink = await $('.navbar-right').$('[data-toggle ="dropdown"]')
+        console.log('User is logged in: ' + await userLink.getText())
+    })
+
+    it('cannot register user with existing email', async () => {
+        const nameInput = await $('#name')
+        const emailInput= await $('#email')
+        const passwordInput = await $('#password')
+        const checkPasswordInput = await $('#password-confirm')
+        const registrationBtn = await $('.btn-primary')
+
+        await nameInput.setValue('Kryšpín Vopršálek')
+        await emailInput.setValue('kryspin.v8@gmail.com')
+        await passwordInput.setValue('12345CosToHonzo')
+        await checkPasswordInput.setValue('12345CosToHonzo')
+        await registrationBtn.click()
+
+        const invalidCredentials = await $$('.invalid-feedback')
+        for await (const inp of invalidCredentials){
+            console.log(await inp.getText())
+        }
+    })
+
+    it('cannot register user with invalid password', async () => {
+        const nameInput = await $('#name')
+        const emailInput= await $('#email')
+        const passwordInput = await $('#password')
+        const checkPasswordInput = await $('#password-confirm')
+        const registrationBtn = await $('.btn-primary')
+
+        await nameInput.setValue('Kryšpín Vopršálek')
+        await emailInput.setValue('kryspin.v888@gmail.com')
+        await passwordInput.setValue('12345')
+        await checkPasswordInput.setValue('12345')
+        await registrationBtn.click()
+        
+        const invalidCredentials = await $$('.invalid-feedback')
+        for await (const inp of invalidCredentials){
+            console.log(await inp.getText())
+        }
+    })
 })
