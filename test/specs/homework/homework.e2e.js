@@ -7,19 +7,24 @@ describe('Homework', async () => {
 
     it('open registration page', async () => {
         const nameInput = await $('#name')
-        console.log(await nameInput.getAttribute('name') + await nameInput.isEnabled())
+        //console.log(await nameInput.getAttribute('name') + await nameInput.isEnabled())
+        await expect(nameInput).toBeEnabled()
 
         const emailInput= await $('#email')
-        console.log (await emailInput.getAttribute(`name`) + await emailInput.isEnabled())
+        //console.log (await emailInput.getAttribute(`name`) + await emailInput.isEnabled())
+        await expect(emailInput).toBeEnabled()
 
         const passwordInput = await $('#password')
-        console.log (await passwordInput.getAttribute('name') + await passwordInput.isEnabled())
+        //console.log (await passwordInput.getAttribute('name') + await passwordInput.isEnabled())
+        await expect(passwordInput).toBeEnabled()
 
         const checkPasswordInput = await $('#password-confirm')
-        console.log(await checkPasswordInput.getAttribute('name') + await checkPasswordInput.isEnabled())
+        //console.log(await checkPasswordInput.getAttribute('name') + await checkPasswordInput.isEnabled())
+        await expect(checkPasswordInput).toBeEnabled()
 
         const registrationBtn = await $('.btn-primary')
-        console.log(await registrationBtn.getText() + await registrationBtn.isEnabled())
+        //console.log(await registrationBtn.getText() + await registrationBtn.isEnabled())
+        await expect(registrationBtn).toBeEnabled()
     })
     
     xit('register new user with valid credentials', async () => {
@@ -35,7 +40,8 @@ describe('Homework', async () => {
         await checkPasswordInput.setValue('12345CosToHonzo')
         await registrationBtn.click()
         const userLink = await $('.navbar-right').$('[data-toggle ="dropdown"]')
-        console.log('User is logged in: ' + await userLink.getText())
+        //console.log('User is logged in: ' + await userLink.getText())
+        await expect(userLink).toHaveText('Kryšpín Vopršálek')
     })
 
     it('cannot register user with existing email', async () => {
@@ -53,7 +59,8 @@ describe('Homework', async () => {
 
         const invalidCredentials = await $$('.invalid-feedback')
         for await (const inp of invalidCredentials){
-            console.log(await inp.getText())
+            //console.log(await inp.getText())
+            await expect(inp).toHaveText(/.*email.*exist.*/i)
         }
     })
 
@@ -72,7 +79,8 @@ describe('Homework', async () => {
         
         const invalidCredentials = await $$('.invalid-feedback')
         for await (const inp of invalidCredentials){
-            console.log(await inp.getText())
+            //console.log(await inp.getText())
+            await expect(inp).toHaveText(/.*heslo.*čísl/i)
         }
     })
 })
