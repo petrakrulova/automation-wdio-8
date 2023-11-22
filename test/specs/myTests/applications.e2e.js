@@ -1,69 +1,24 @@
-
-import {username, password, expectedApplicationsPageRows} from '../fixtures.js'
-//import {loginButton, emailField, passwordField} from './login.e2e.js'
-
-
-async function openLoginPage(){
-    await browser.reloadSession()
-    await browser.url('/prihlaseni')
-}
-
-async function login(username, password){
-    await $('#email').setValue(username)
-    await $('#password').setValue(password)
-    await $('.btn-primary').click()
-}
-
-async function goToApplications(){
-    await $('=Přihlášky').click()
-}
-
-async function getfirstRecord(){
-    return await $('#DataTables_Table_0').$('tbody').$('tr')
-}
-
-async function firstRecordVisible(){
-    await getfirstRecord().toExist()
-}
-
-async function waitForTableToLoad(){
-    await $('#DataTables_Table_0_processing').waitForDisplayed()
-    await $('#DataTables_Table_0_processing').waitForDisplayed({ reverse: true})
-}
-
-async function getTableRows(){
-    return await $('#DataTables_Table_0').$('tbody').$$('tr')
-}
-
-async function searchInTable(text){
-    await $('.dataTables_filter').$('input.form-control').setValue(text)
-}
-
-
+import {username, password, expectedApplicationsPageRows} from './../fixtures.js'
+import LoginPage from '../../pageobjects/login.page.js'
+import ApplicationsPage from '../../pageobjects/applications.page.js'
 
 describe('Applications table', async () => {
     beforeEach(async () =>{
-        await openLoginPage()
-        //přihlášení uživatele
-        await login(username,password)
-        //Prihlasky page
-        await goToApplications()
+        await LoginPage.open()
+        await LoginPage.login(username, password)
+        await ApplicationsPage.open()
     })
 
     it('Applications table is visible', async () => {
-        await expect (firstRecordVisible())
+        await expect (ApplicationsPage.firstRecordVisible())
     })
 
     it('get all rows from Applications table', async () => {
-        await expect (firstRecordVisible())
-        await expect (getTableRows()).toBeElementsArrayOfSize(expectedApplicationsPageRows)
+        await expect (ApplicationsPage.getTableRows()).toBeElementsArrayOfSize(expectedApplicationsPageRows)
     })
 
     it('Applications table has all data (name, date, payment, price)', async()=>{
-        await expect (firstRecordVisible())
-
-        //let columnsApplicationTable = await $('#DataTables_Table_0').$('tbody').$$('td')
-        for (let tr of await getTableRows()){
+        for (let tr of await ApplicationsPage.rows){
             let nameApplication = await tr.$$('td')[0]
             let dateApplication = await tr.$$('td')[1]
             let paymentApplicaton = await tr.$$('td')[2]
@@ -77,18 +32,17 @@ describe('Applications table', async () => {
     })
 
     it('filter Applications table & get filtered data', async () => {
-        //filtr tabulky a výpis dat
-        await expect (firstRecordVisible())
-        const unfilteredRows = await getTableRows()
+        const unfilteredRows = await ApplicationsPage.getTableRows()
         
-        await searchInTable('lee')
-        await waitForTableToLoad()
-        const filteredRows = await getTableRows()
-        //console.log('Přihlášky table rows - filtered: ' + await rowsApplicationTable.length)
-        await expect(filteredRows.length).toBeLessThanOrEqual(unfilteredRows.length)
-        for (let tr of await getTableRows()){
+        const searchText = 'lee'
+        await ApplicationsPage.searchInTable(searchText)
+
+        const filteredRows = await ApplicationsPage.getTableRows()
+        expect(filteredRows.length).toBeLessThanOrEqual(unfilteredRows.length)
+
+        for (let tr of filteredRows){
             let nameApplication = await tr.$$('td')[0]
-            await expect(nameApplication).toHaveText(/^lee.*/i)
-        }        
+            await expect(nameApplication).toHaveTextContaining(searchText, { ignoreCase: true })
+        } 
     })
 })
