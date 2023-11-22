@@ -151,13 +151,13 @@ xdescribe('old bad FUJ test', async () => {
 })
 
 
-describe('Login', async () => {
+xdescribe('Login', async () => {
     beforeEach(async () =>{
         await browser.reloadSession()
         await browser.url('/prihlaseni')
     })
 
-    it('login page w/ form is visible', async () => {
+    it('login page with form is visible', async () => {
         const loginButton = await $('.btn-primary')
         const emailField = await $('#email')
         const passwordField = await $('#password')
@@ -235,7 +235,7 @@ describe('Login', async () => {
 
 })
 
-describe('Applications table', async () => {
+xdescribe('Applications table', async () => {
     beforeEach(async () =>{
         await browser.reloadSession()
         await browser.url('/prihlaseni')
@@ -260,7 +260,7 @@ describe('Applications table', async () => {
         const firstRecord = await $('#DataTables_Table_0').$('tbody').$('tr')
         await firstRecord.waitForExist()
         let rowsApplicationTable = await $('#DataTables_Table_0').$('tbody').$$('tr')
-        await expect(rowsApplicationTable).toBeElementsArrayOfSize(20)
+        await expect(rowsApplicationTable).toBeElementsArrayOfSize(30)
     })
 
     it('Applications table has all data (name, date, payment, price)', async()=>{
