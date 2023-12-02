@@ -1,21 +1,23 @@
-class ApplicationsPage {
+import AppPage from './app.page.js'
+
+class ApplicationsPage extends AppPage {
 
     constructor() {
-        this.url = '/admin/prihlasky';
+        super('/')
     }
 
     get table(){return $('.dataTable')}
     get rows(){return this.table.$('tbody').$$('tr')}
-    get firstRecord(){return this.table.$('tbody').$('tr')}
+    get oneRow(){return this.table.$('tbody').$('tr')}
     get loading(){return $('#DataTables_Table_0_processing')}
     get searchingField(){return $('.dataTables_filter').$('input.form-control')}
 
     async open(){
-        await browser.url(this.url)
+        await $('*=Přihlášky').click()
     }
 
     async firstRecordVisible(){
-        await this.firstRecord.toExist()
+        await this.oneRow.toExist()
     }
 
     async waitForTableToLoad(){
@@ -28,9 +30,21 @@ class ApplicationsPage {
         await this.searchingField.setValue(searchText)
     }
     
-    async getTableRows(){
+    async getTableData(){
         await this.waitForTableToLoad()
-        return this.rows
+        let tableData = []
+   
+        for (const tr of await this.rows){
+            const cols = await tr.$$('td')
+            const getColumnValues = {
+                name: await cols[0].getText(),
+                date: await cols[1].getText(),
+                paymentType: await cols[2].getText(),
+                toPay: await cols[3].getText()
+            }
+            await tableData.push(getColumnValues)
+        }
+        return await tableData
     }
 }
 

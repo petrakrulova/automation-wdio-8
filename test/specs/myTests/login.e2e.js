@@ -1,6 +1,5 @@
 
 import {username, password, userFullName} from './../fixtures.js'
-
 import LoginPage from '../../pageobjects/login.page.js'
 
 async function loginPageVisible(){
@@ -44,7 +43,7 @@ describe('Login', async () => {
         //přihlášení se správnými údaji
         await LoginPage.login(username, password)
         //kontrola přihlášení
-        await expect(LoginPage.userLink.toHaveText(userFullName))
+        await expect(await LoginPage.getCurrentUsername()).toEqual(userFullName)
     })
 
     it('log out & open main page', async()=>{
@@ -52,12 +51,8 @@ describe('Login', async () => {
         await LoginPage.login(username, password)
         //Odhlášení
         await LoginPage.logout()
-        
-        //const linkToLoginPage = await $('.navbar-right').$('.nav-link')
-        //await expect(linkToLoginPage).toHaveText('Přihlásit')
         await expect('.card').toBeDisplayed
-        const headingMainPage = $('h1')
-        await expect(headingMainPage).toHaveText('Vyberte období akce')
+        await expect(LoginPage.mainHeading).toHaveText('Vyberte období akce')
     })
 
     it('forgot password link has right link', async()=>{

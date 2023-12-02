@@ -1,15 +1,15 @@
-class LoginPage {
+import AppPage from './app.page.js'
+
+class LoginPage extends AppPage {
 
     constructor() {
-        this.url = '/prihlaseni';
+        super()
+        this.url = '/prihlaseni'
     }
 
     get loginButton(){ return $('.btn-primary') }
     get emailField(){ return $('#email') } 
     get passwordField(){ return $('#password') }
-    get userLink(){ return $('.navbar-right').$('[data-toggle ="dropdown"]') }
-    get errorField(){ return $('.toast-message') }
-    get logoutLink(){ return $('#logout-link') }
     get forgotPasswordLink(){return $('=Zapomněli jste své heslo?')} 
 
     async open(){
@@ -23,11 +23,6 @@ class LoginPage {
         await this.loginButton.click()
     }
 
-    async logout(){
-        await this.userLink.click()
-        await this.logoutLink.click()
-    }
-
 }
 
-export default new LoginPage();
+export default new LoginPage()

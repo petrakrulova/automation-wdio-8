@@ -1,7 +1,9 @@
-class RegistrationPage {
+import AppPage from '../../../pageobjects/app.page.js'
+
+class RegistrationPage extends AppPage {
 
     constructor(){
-        this.url = `/registrace`
+        super('/')
     }
     
     get nameInput(){return $('#name')}
@@ -9,11 +11,10 @@ class RegistrationPage {
     get passwordInput(){return $('#password')}
     get checkPasswordInput(){return $('#password-confirm')}
     get registrationBtn(){return $('.btn-primary')}
-    get userLink(){return $('.navbar-right').$('[data-toggle ="dropdown"]')}
     get errorText(){return $$('.invalid-feedback')}
     
     async open(){
-        await browser.url(this.url)
+        await $('*=Zaregistrujte se').click()
     }
 
     async register(nameText, emailText, passwordText, checkPasswordText){

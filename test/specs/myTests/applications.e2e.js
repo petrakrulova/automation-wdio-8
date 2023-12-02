@@ -13,36 +13,32 @@ describe('Applications table', async () => {
         await expect (ApplicationsPage.firstRecordVisible())
     })
 
-    it('get all rows from Applications table', async () => {
-        await expect (ApplicationsPage.getTableRows()).toBeElementsArrayOfSize(expectedApplicationsPageRows)
+    it('count of loaded rows is correct', async () => {
+        await expect ((await ApplicationsPage.getTableData()).length).toEqual(expectedApplicationsPageRows)
     })
 
     it('Applications table has all data (name, date, payment, price)', async()=>{
-        for (let tr of await ApplicationsPage.rows){
-            let nameApplication = await tr.$$('td')[0]
-            let dateApplication = await tr.$$('td')[1]
-            let paymentApplicaton = await tr.$$('td')[2]
-            let priceApplication = await tr.$$('td')[3]
+        const rows = await ApplicationsPage.getTableData()
+        // console.log(rows)
 
-            await expect(nameApplication).toHaveText(/[a-zA-Z]/)
-            await expect(dateApplication).toHaveText(/\d{1,2}\.\d{1,2}\. - \d{1,2}\.\d{1,2}\.\d{4}/)
-            await expect(paymentApplicaton).toHaveTextContaining(/Bankovní převod|Hotově|FKSP/)
-            await expect(priceApplication).toHaveText(/\d Kč/)
+        for (const tr of rows){
+            // console.log(tr.date)
+            await expect(tr.name).toMatch(/[a-zA-Z]/);
+            await expect(tr.date).toMatch(/\d{1,2}\.\d{1,2}\. - \d{1,2}\.\d{1,2}\.\d{4}/)
+            await expect(tr.paymentType).toMatch(/Bankovní převod|Hotově|FKSP/)
+            await expect(tr.toPay).toMatch(/\d Kč/)
         }
     })
 
     it('filter Applications table & get filtered data', async () => {
-        const unfilteredRows = await ApplicationsPage.getTableRows()
-        
+        const unfilteredRows = await ApplicationsPage.getTableData()
         const searchText = 'lee'
         await ApplicationsPage.searchInTable(searchText)
-
-        const filteredRows = await ApplicationsPage.getTableRows()
+        const filteredRows = await ApplicationsPage.getTableData()
         expect(filteredRows.length).toBeLessThanOrEqual(unfilteredRows.length)
 
-        for (let tr of filteredRows){
-            let nameApplication = await tr.$$('td')[0]
-            await expect(nameApplication).toHaveTextContaining(searchText, { ignoreCase: true })
+        for (const tr of filteredRows){
+            await expect(tr.name.toLowerCase()).toContain(searchText)
         } 
     })
 })

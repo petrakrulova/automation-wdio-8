@@ -1,4 +1,5 @@
 import RegistrationPage from './../pageObjects/homework.page.js'
+import LoginPage from '../../../pageobjects/login.page.js'
 
 let nameText = 'Kryšpín Vopršálek'
 let passwordText = '12345CosToHonzo'
@@ -12,6 +13,7 @@ async function errorMessage(errText){
 describe('Homework', async () => {
 
     beforeEach(async()=>{
+        await LoginPage.open()
         await RegistrationPage.open()
     })
 
@@ -27,15 +29,12 @@ describe('Homework', async () => {
     xit('register new user with valid credentials', async () => {
         let emailText = 'kryspin.v85@gmail.com'
         await RegistrationPage.register(nameText,emailText, passwordText, passwordText)
-
-        //console.log('User is logged in: ' + await userLink.getText())
-        await expect(RegistrationPage.userLink).toHaveText(nameText)
+        await expect(RegistrationPage.userLink).toEqual(nameText)
     })
 
     it('cannot register user with existing email', async () => {
         let emailText = 'kryspin.v8@gmail.com'
         await RegistrationPage.register(nameText,emailText, passwordText, passwordText)
-
         await errorMessage((/.*email.*exist.*/i))
     })
 
@@ -43,7 +42,6 @@ describe('Homework', async () => {
         let emailText = 'kryspin.v888@gmail.com'
         let passwordText = '12345'
         await RegistrationPage.register(nameText,emailText, passwordText, passwordText)
-        
         await errorMessage(/.*heslo.*čísl/i)
     })
 })
