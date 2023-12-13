@@ -17,12 +17,12 @@ class RegistrationPage extends AppPage {
         await $('*=Zaregistrujte se').click()
     }
 
-    async register(nameText, emailText, passwordText, checkPasswordText){
-        this.nameInput.setValue(nameText)
-        this.emailInput.setValue(emailText)
-        this.passwordInput.setValue(passwordText)
-        this.checkPasswordInput.setValue(checkPasswordText)
-        this.registrationBtn.click()
+    async register(nameText,emailText, passwordText, checkPasswordText){
+        await this.nameInput.setValue(nameText)
+        await this.emailInput.setValue(emailText)
+        await this.passwordInput.setValue(passwordText)
+        await this.checkPasswordInput.setValue(checkPasswordText)
+        await this.registrationBtn.click()
     }
 
 }

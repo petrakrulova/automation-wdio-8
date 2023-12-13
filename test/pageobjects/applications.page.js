@@ -32,20 +32,69 @@ class ApplicationsPage extends AppPage {
     
     async getTableData(){
         await this.waitForTableToLoad()
-        let tableData = []
-   
-        for (const tr of await this.rows){
-            const cols = await tr.$$('td')
-            const getColumnValues = {
-                name: await cols[0].getText(),
-                date: await cols[1].getText(),
-                paymentType: await cols[2].getText(),
-                toPay: await cols[3].getText()
-            }
-            await tableData.push(getColumnValues)
-        }
-        return await tableData
+        return this.rows.map(async row => {
+            return new TableRow(row)
+        })
+
+        // let tableData = []
+        // for (const tr of await this.rows){
+        //     const cols = await tr.$$('td')
+        //     const getColumnValues = {
+        //         name: await cols[0].getText(),
+        //         date: await cols[1].getText(),
+        //         paymentType: await cols[2].getText(),
+        //         toPay: await cols[3].getText()
+        //     }
+        //     await tableData.push(getColumnValues)
+        // }
+        // return await tableData
+
+    }
+
+}
+
+class TableRow {
+    constructor(rowElement){
+        this.rowElement = rowElement
+    }
+
+    async getValues(){
+         const cols = this.rowElement.$$('td')
+         return {
+            name: await cols[0].getText(),
+            date: await cols[1].getText(),
+            paymentType: await cols[2].getText(),
+            toPay: await cols[3].getText()
+         }
+    }
+
+    async getInfo(){
+        await this.rowElement.$('[data-can="view"]').click()
+        return new ApplicationDetailsPage()
     }
 }
 
-export default new ApplicationsPage();
+class ApplicationDetailsPage{
+    get detailsTable() { return $('.table-twocols') }
+
+    async getDetails() {
+        return Promise.all(await (this.detailsTable.$$('tr')).map(async row => {
+            return Promise.all(await (row.$$('td')).map(async col => {
+                return await col.getText()
+            }))
+        }))
+
+        // let rows = []
+        // for (const row of await this.detailsTable.$$('tr')) {
+        //     let cols = []
+        //     for (const col of await row.$$('td')) {
+        //         cols.push(await col.getText());
+        //     }
+        //     rows.push(cols);
+        // }
+        // return rows;
+    }
+}
+
+
+export default new ApplicationsPage()

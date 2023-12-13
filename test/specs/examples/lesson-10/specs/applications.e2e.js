@@ -30,7 +30,7 @@ describe('Applications Page', async () => {
 
     it('should filter in applications', async () => {
         const searchText = 'mar';
-
+        
         const unfilteredRows = await ApplicationsPage.getTableRows();
 
         await ApplicationsPage.searchInTable(searchText);

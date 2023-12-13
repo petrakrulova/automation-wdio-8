@@ -21,24 +21,42 @@ describe('Applications table', async () => {
         const rows = await ApplicationsPage.getTableData()
         // console.log(rows)
 
-        for (const tr of rows){
+        for (const row of rows){
+
+            const values = await row.getValues()
             // console.log(tr.date)
-            await expect(tr.name).toMatch(/[a-zA-Z]/);
-            await expect(tr.date).toMatch(/\d{1,2}\.\d{1,2}\. - \d{1,2}\.\d{1,2}\.\d{4}/)
-            await expect(tr.paymentType).toMatch(/Bankovní převod|Hotově|FKSP/)
-            await expect(tr.toPay).toMatch(/\d Kč/)
+            await expect(values.name).toMatch(/[a-zA-Z]/);
+            await expect(values.date).toMatch(/\d{1,2}\.\d{1,2}\. - \d{1,2}\.\d{1,2}\.\d{4}/)
+            await expect(values.paymentType).toMatch(/Bankovní převod|Hotově|FKSP/)
+            await expect(values.toPay).toMatch(/\d Kč/)
         }
     })
 
     it('filter Applications table & get filtered data', async () => {
-        const unfilteredRows = await ApplicationsPage.getTableData()
         const searchText = 'lee'
+        const unfilteredRows = await ApplicationsPage.getTableData()
         await ApplicationsPage.searchInTable(searchText)
         const filteredRows = await ApplicationsPage.getTableData()
         expect(filteredRows.length).toBeLessThanOrEqual(unfilteredRows.length)
 
-        for (const tr of filteredRows){
-            await expect(tr.name.toLowerCase()).toContain(searchText)
+        for (const row of filteredRows){
+            const values = await row.getValues()
+            await expect(values.name.toLowerCase()).toContain(searchText)
         } 
+    })
+
+    it('open application details', async() =>{
+        //vybere třetí přihlášku
+        const thirdRow = (await ApplicationsPage.getTableData())[4]
+        // const [lastName, firstName, secondName] = (await thirdRow.getValues()).name.split(' ')
+        const [lastName, firstName] = (await thirdRow.getValues()).name.split(' ')
+
+        //otevře stránku s detaily přihlášky
+        const applicationDetailsPage = await thirdRow.getInfo()
+        const applicationDetails = await applicationDetailsPage.getDetails()
+
+        // await expect (applicationDetails).toContainEqual(['Křestní jméno žáka:', [firstName, secondName].join(' ')])
+        await expect (applicationDetails).toContainEqual(['Křestní jméno žáka:', firstName])
+        await expect (applicationDetails).toContainEqual(['Příjmení žáka:', lastName])
     })
 })

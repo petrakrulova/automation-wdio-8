@@ -1,4 +1,4 @@
-import RegistrationPage from './../pageObjects/homework.page.js'
+import RegistrationPage from '../pageObjects/registration.page.js'
 import LoginPage from '../../../pageobjects/login.page.js'
 
 let nameText = 'Kryšpín Vopršálek'
@@ -26,10 +26,11 @@ describe('Homework', async () => {
         await expect(RegistrationPage.registrationBtn).toBeEnabled()
     })
     
-    xit('register new user with valid credentials', async () => {
-        let emailText = 'kryspin.v85@gmail.com'
+    it('register new user with valid credentials', async () => {
+        const randomNumber = Math.floor(Math.random() * 10000)
+        let emailText = 'kryspin.v' + randomNumber + '@gmail.com'
         await RegistrationPage.register(nameText,emailText, passwordText, passwordText)
-        await expect(RegistrationPage.userLink).toEqual(nameText)
+        await expect(await RegistrationPage.getCurrentUsername()).toEqual(nameText)
     })
 
     it('cannot register user with existing email', async () => {

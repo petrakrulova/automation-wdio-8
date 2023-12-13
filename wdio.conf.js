@@ -39,17 +39,17 @@ export const config = {
         exercise: ['./test/specs/exercise.e2e.js'],
         applications: ['./test/specs/myTests/applications.e2e.js'],
         login: ['./test/specs/myTests/login.e2e.js'],
-        homework: ['./test/specs/homework/tests/*.e2e.js'],
-        lesson_01: ['./test/specs/examples/lesson-01/**/*.e2e.js'],
-        lesson_02: ['./test/specs/examples/lesson-02/**/*.e2e.js'],
-        lesson_03: ['./test/specs/examples/lesson-03/**/*.e2e.js'],
-        lesson_04: ['./test/specs/examples/lesson-04/**/*.e2e.js'],
-        lesson_05: ['./test/specs/examples/lesson-05/**/*.e2e.js'],
-        lesson_07: ['./test/specs/examples/lesson-07/**/*.e2e.js'],
-        lesson_08: ['./test/specs/examples/lesson-08/**/*.e2e.js'],
-        lesson_09: ['./test/specs/examples/lesson-09/**/*.e2e.js'],
-        lesson_10: ['./test/specs/examples/lesson-10/**/*.e2e.js'],
-        lesson_11: ['./test/specs/examples/lesson-11/**/*.e2e.js']
+        homework: ['./test/specs/homework/tests/registration.e2e.js']
+        // lesson_01: ['./test/specs/examples/lesson-01/**/*.e2e.js'],
+        // lesson_02: ['./test/specs/examples/lesson-02/**/*.e2e.js'],
+        // lesson_03: ['./test/specs/examples/lesson-03/**/*.e2e.js'],
+        // lesson_04: ['./test/specs/examples/lesson-04/**/*.e2e.js'],
+        // lesson_05: ['./test/specs/examples/lesson-05/**/*.e2e.js'],
+        // lesson_07: ['./test/specs/examples/lesson-07/**/*.e2e.js'],
+        // lesson_08: ['./test/specs/examples/lesson-08/**/*.e2e.js'],
+        // lesson_09: ['./test/specs/examples/lesson-09/**/*.e2e.js'],
+        //lesson_10: ['./test/specs/examples/lesson-10/**/*.e2e.js'],
+        // lesson_11: ['./test/specs/examples/lesson-11/**/*.e2e.js']
         
 
 

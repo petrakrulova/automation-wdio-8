@@ -57,7 +57,7 @@ class ApplicationInfoPage {
     get table() { return $('.table-twocols') }
 
     async getDetail() {
-        return Promise.all(await (this.table.$$('tr')).map(async row => {
+        return Promise.all(await (this.rows).map(async row => {
             return Promise.all(await (row.$$('td')).map(async col => {
                 return await col.getText();
             }));
