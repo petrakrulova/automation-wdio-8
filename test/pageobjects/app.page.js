@@ -7,6 +7,9 @@ class AppPage {
     get logoutLink(){ return $('#logout-link') }
     get errorField(){ return $('.toast-message') }
     get mainHeading(){ return $('h1')}
+    get contentHeadingH3() {return $('h3')}
+    get menuLeft() {return $('.navbar-nav')}
+    get forTeachersLink() {return this.menuLeft.$('*=Pro učitelé')}
 
     async open(){
         await browser.open(url)

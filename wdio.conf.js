@@ -39,6 +39,7 @@ export const config = {
         exercise: ['./test/specs/exercise.e2e.js'],
         applications: ['./test/specs/myTests/applications.e2e.js'],
         login: ['./test/specs/myTests/login.e2e.js'],
+        orders: ['./test/specs/myTests/orders.e2e.js'],
         homework: ['./test/specs/homework/tests/registration.e2e.js']
         // lesson_01: ['./test/specs/examples/lesson-01/**/*.e2e.js'],
         // lesson_02: ['./test/specs/examples/lesson-02/**/*.e2e.js'],
